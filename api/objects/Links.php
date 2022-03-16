@@ -49,7 +49,7 @@ class Links
     }
 
     // создаём ссылку
-    public function create(): int
+    public function create(): ?array
     {
         $id = 1;
         $generatedLink = '';
@@ -70,8 +70,8 @@ class Links
 
         // выполняем запрос
         if ($stmt->execute()) {
-            return $this->connection->lastInsertId();
+            return array("id" => $this->connection->lastInsertId(), "link" => $generatedLink);
         }
-        return 0;
+        return null;
     }
 }

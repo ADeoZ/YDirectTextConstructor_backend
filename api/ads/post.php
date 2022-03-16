@@ -6,50 +6,83 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
+//$data = json_decode(file_get_contents("php://input"));
+//http_response_code(200);
+//echo json_encode(array("message" => "Объявления записаны."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+
 // подключение файла для соединения с базой и файл с объектом
 include_once '../database/Database.php';
 include_once '../objects/Ads.php';
 include_once '../objects/Links.php';
 
-$database = new Database();
-$db = $database->getConnection();
-$links = new Links($db);
-echo $links->create();
+// получаем отправленные данные
+$data = json_decode(file_get_contents("php://input"));
 
-//// получаем отправленные данные
-//$data = json_decode(file_get_contents("php://input"));
-//
-//// убеждаемся, что данные не пусты
-//if (
-//    !empty($data->header) &&
-//    !empty($data->text) &&
-//    !empty($data->url)
-//) {
-//    // получаем соединение с базой данных
-//    $database = new Database();
-//    $db = $database->getConnection();
-//    // подготовка объекта
-//    $ads = new Ads($db);
-//    // устанавливаем значения свойств товара
-//    $ads->header = $data->header;
-//
-//    // если не удается записать объявление, сообщим пользователю
-//    if(!$ads->create()){
-//        // установим код ответа - 503 сервис недоступен
-//        http_response_code(503);
-//        // сообщим пользователю
-//        echo json_encode(array("message" => "Невозможно создать объявление."), JSON_UNESCAPED_UNICODE);
-//    }
-//
-//    // установим код ответа - 201 создано
-//    http_response_code(201);
-//    // сообщим пользователю
-//    echo json_encode(array("message" => "Объявления записаны."), JSON_UNESCAPED_UNICODE);
-//}
-//// сообщим пользователю что данные неполные
-//else {
-//    // установим код ответа - 400 неверный запрос
-//    http_response_code(400);
-//    // сообщим пользователю
-//    echo json_encode(array("message" => "Невозможно записать объявления. Данные неполные."), JSON_UNESCAPED_UNICODE);
-//}
+if (!empty($data->ads)) {
+    // получаем соединение с базой данных
+    $database = new Database();
+    $db = $database->getConnection();
+    // подготовка объекта
+    $links = new Links($db);
+    // генерация новой ссылки
+    $linkInfo = $links->create();
+
+    foreach ($data->ads as $item) {
+        // создаём новый объект объявления
+        $ads = new Ads($db);
+        // устанавливаем значения свойств
+        $ads->header = $item->header ?? "";
+        $ads->extraheader = $item->extraheader ?? "";
+        $ads->text = $item->text ?? "";
+        $ads->url = $item->url ?? "";
+        $ads->showurl = $item->showurl ?? "";
+        $ads->callout_1 = $item->callout_1 ?? "";
+        $ads->callout_2 = $item->callout_2 ?? "";
+        $ads->callout_3 = $item->callout_3 ?? "";
+        $ads->callout_4 = $item->callout_4 ?? "";
+        $ads->sitelink_1_name = $item->sitelink_1_name ?? "";
+        $ads->sitelink_1_link = $item->sitelink_1_link ?? "";
+        $ads->sitelink_1_descr = $item->sitelink_1_descr ?? "";
+        $ads->sitelink_2_name = $item->sitelink_2_name ?? "";
+        $ads->sitelink_2_link = $item->sitelink_2_link ?? "";
+        $ads->sitelink_2_descr = $item->sitelink_2_descr ?? "";
+        $ads->sitelink_3_name = $item->sitelink_3_name ?? "";
+        $ads->sitelink_3_link = $item->sitelink_3_link ?? "";
+        $ads->sitelink_3_descr = $item->sitelink_3_descr ?? "";
+        $ads->sitelink_4_name = $item->sitelink_4_name ?? "";
+        $ads->sitelink_4_link = $item->sitelink_4_link ?? "";
+        $ads->sitelink_4_descr = $item->sitelink_4_descr ?? "";
+        $ads->sitelink_5_name = $item->sitelink_5_name ?? "";
+        $ads->sitelink_5_link = $item->sitelink_5_link ?? "";
+        $ads->sitelink_5_descr = $item->sitelink_5_descr ?? "";
+        $ads->sitelink_6_name = $item->sitelink_6_name ?? "";
+        $ads->sitelink_6_link = $item->sitelink_6_link ?? "";
+        $ads->sitelink_6_descr = $item->sitelink_6_descr ?? "";
+        $ads->sitelink_7_name = $item->sitelink_7_name ?? "";
+        $ads->sitelink_7_link = $item->sitelink_7_link ?? "";
+        $ads->sitelink_7_descr = $item->sitelink_7_descr ?? "";
+        $ads->sitelink_8_name = $item->sitelink_8_name ?? "";
+        $ads->sitelink_8_link = $item->sitelink_8_link ?? "";
+        $ads->sitelink_8_descr = $item->sitelink_8_descr ?? "";
+        $ads->link_id = $linkInfo["id"];
+
+        if (!$ads->create()) {
+            // установим код ответа - 503 сервис недоступен
+            http_response_code(503);
+            // сообщим пользователю
+            echo json_encode(array("error" => "Невозможно создать объявление."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    // установим код ответа - 201 создано
+    http_response_code(201);
+    // сообщим пользователю
+    echo json_encode(array("message" => "Объявления записаны.", "link" => $linkInfo["link"]), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+
+} // сообщим пользователю что данные неполные
+else {
+    // установим код ответа - 400 неверный запрос
+    http_response_code(400);
+    // сообщим пользователю
+    echo json_encode(array("error" => "Невозможно записать объявления. Данные неполные."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+}

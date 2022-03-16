@@ -36,11 +36,11 @@ if (count($adsArray) > 0) {
     http_response_code(200);
 
     // выводим данные объявлений в формате JSON
-    echo json_encode(["ads" => $adsArray]);
+    echo json_encode(["ads" => $adsArray], JSON_THROW_ON_ERROR);
 } else {
     // код ответа - 404 Не найдено
     http_response_code(404);
 
     // объект не существует
-    echo json_encode(array("error" => "Объявления не существуют."), JSON_UNESCAPED_UNICODE);
+    echo json_encode(array("error" => "Объявления не существуют."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 }

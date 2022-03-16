@@ -1,0 +1,6 @@
+.idea
+.htaccess
+*.sqlite
+**/database/config.php
+
+
