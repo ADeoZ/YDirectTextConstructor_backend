@@ -12,10 +12,13 @@ class Ads
     public string $text;
     public string $url;
     public string $showurl;
+    public string $callout_0;
     public string $callout_1;
     public string $callout_2;
     public string $callout_3;
-    public string $callout_4;
+    public string $sitelink_0_name;
+    public string $sitelink_0_link;
+    public string $sitelink_0_descr;
     public string $sitelink_1_name;
     public string $sitelink_1_link;
     public string $sitelink_1_descr;
@@ -37,9 +40,6 @@ class Ads
     public string $sitelink_7_name;
     public string $sitelink_7_link;
     public string $sitelink_7_descr;
-    public string $sitelink_8_name;
-    public string $sitelink_8_link;
-    public string $sitelink_8_descr;
 
     // конструктор для соединения с базой данных
     public function __construct($db)
@@ -56,10 +56,13 @@ class Ads
             text,
             url,
             showurl,
+            callout_0,
             callout_1,
             callout_2,
             callout_3,
-            callout_4,
+            sitelink_0_name,
+            sitelink_0_link,
+            sitelink_0_descr,
             sitelink_1_name,
             sitelink_1_link,
             sitelink_1_descr,
@@ -80,10 +83,7 @@ class Ads
             sitelink_6_descr,
             sitelink_7_name,
             sitelink_7_link,
-            sitelink_7_descr,
-            sitelink_8_name,
-            sitelink_8_link,
-            sitelink_8_descr
+            sitelink_7_descr
         FROM ads a LEFT JOIN links l on l.id = a.link_id WHERE link = :link";
 
         // подготовка запроса
@@ -108,10 +108,13 @@ class Ads
                  text,
                  url,
                  showurl,
+                 callout_0,
                  callout_1,
                  callout_2,
                  callout_3,
-                 callout_4,
+                 sitelink_0_name,
+                 sitelink_0_link,
+                 sitelink_0_descr,
                  sitelink_1_name,
                  sitelink_1_link,
                  sitelink_1_descr,
@@ -133,9 +136,6 @@ class Ads
                  sitelink_7_name,
                  sitelink_7_link,
                  sitelink_7_descr,
-                 sitelink_8_name,
-                 sitelink_8_link,
-                 sitelink_8_descr,
                  link_id                 
                  ) VALUES (
                  :header,
@@ -143,10 +143,13 @@ class Ads
                  :text,
                  :url,
                  :showurl,
+                 :callout_0,
                  :callout_1,
                  :callout_2,
                  :callout_3,
-                 :callout_4,
+                 :sitelink_0_name,
+                 :sitelink_0_link,
+                 :sitelink_0_descr,
                  :sitelink_1_name,
                  :sitelink_1_link,
                  :sitelink_1_descr,
@@ -168,9 +171,6 @@ class Ads
                  :sitelink_7_name,
                  :sitelink_7_link,
                  :sitelink_7_descr,
-                 :sitelink_8_name,
-                 :sitelink_8_link,
-                 :sitelink_8_descr,
                  :link_id
                  )";
 
@@ -183,10 +183,13 @@ class Ads
         $this->text = htmlspecialchars(strip_tags($this->text));
         $this->url = htmlspecialchars(strip_tags($this->url));
         $this->showurl = htmlspecialchars(strip_tags($this->showurl));
+        $this->callout_0 = htmlspecialchars(strip_tags($this->callout_0));
         $this->callout_1 = htmlspecialchars(strip_tags($this->callout_1));
         $this->callout_2 = htmlspecialchars(strip_tags($this->callout_2));
         $this->callout_3 = htmlspecialchars(strip_tags($this->callout_3));
-        $this->callout_4 = htmlspecialchars(strip_tags($this->callout_4));
+        $this->sitelink_0_name = htmlspecialchars(strip_tags($this->sitelink_0_name));
+        $this->sitelink_0_link = htmlspecialchars(strip_tags($this->sitelink_0_link));
+        $this->sitelink_0_descr = htmlspecialchars(strip_tags($this->sitelink_0_descr));
         $this->sitelink_1_name = htmlspecialchars(strip_tags($this->sitelink_1_name));
         $this->sitelink_1_link = htmlspecialchars(strip_tags($this->sitelink_1_link));
         $this->sitelink_1_descr = htmlspecialchars(strip_tags($this->sitelink_1_descr));
@@ -208,9 +211,6 @@ class Ads
         $this->sitelink_7_name = htmlspecialchars(strip_tags($this->sitelink_7_name));
         $this->sitelink_7_link = htmlspecialchars(strip_tags($this->sitelink_7_link));
         $this->sitelink_7_descr = htmlspecialchars(strip_tags($this->sitelink_7_descr));
-        $this->sitelink_8_name = htmlspecialchars(strip_tags($this->sitelink_8_name));
-        $this->sitelink_8_link = htmlspecialchars(strip_tags($this->sitelink_8_link));
-        $this->sitelink_8_descr = htmlspecialchars(strip_tags($this->sitelink_8_descr));
 
         // привязка значений
         $stmt->bindParam(":header", $this->header);
@@ -218,10 +218,13 @@ class Ads
         $stmt->bindParam(":text", $this->text);
         $stmt->bindParam(":url", $this->url);
         $stmt->bindParam(":showurl", $this->showurl);
+        $stmt->bindParam(":callout_0", $this->callout_0);
         $stmt->bindParam(":callout_1", $this->callout_1);
         $stmt->bindParam(":callout_2", $this->callout_2);
         $stmt->bindParam(":callout_3", $this->callout_3);
-        $stmt->bindParam(":callout_4", $this->callout_4);
+        $stmt->bindParam(":sitelink_0_name", $this->sitelink_0_name);
+        $stmt->bindParam(":sitelink_0_link", $this->sitelink_0_link);
+        $stmt->bindParam(":sitelink_0_descr", $this->sitelink_0_descr);
         $stmt->bindParam(":sitelink_1_name", $this->sitelink_1_name);
         $stmt->bindParam(":sitelink_1_link", $this->sitelink_1_link);
         $stmt->bindParam(":sitelink_1_descr", $this->sitelink_1_descr);
@@ -243,9 +246,6 @@ class Ads
         $stmt->bindParam(":sitelink_7_name", $this->sitelink_7_name);
         $stmt->bindParam(":sitelink_7_link", $this->sitelink_7_link);
         $stmt->bindParam(":sitelink_7_descr", $this->sitelink_7_descr);
-        $stmt->bindParam(":sitelink_8_name", $this->sitelink_8_name);
-        $stmt->bindParam(":sitelink_8_link", $this->sitelink_8_link);
-        $stmt->bindParam(":sitelink_8_descr", $this->sitelink_8_descr);
         $stmt->bindParam(":link_id", $this->link_id);
 
         // выполняем запрос

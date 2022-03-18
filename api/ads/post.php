@@ -1,7 +1,7 @@
 <?php
 // необходимые HTTP-заголовки
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+// header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
@@ -19,6 +19,9 @@ include_once '../objects/Links.php';
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->ads)) {
+    array_filter(get_object_vars($data->ads[0]));
+
+
     // получаем соединение с базой данных
     $database = new Database();
     $db = $database->getConnection();
@@ -28,49 +31,61 @@ if (!empty($data->ads)) {
     $linkInfo = $links->create();
 
     foreach ($data->ads as $item) {
-        // создаём новый объект объявления
-        $ads = new Ads($db);
-        // устанавливаем значения свойств
-        $ads->header = $item->header ?? "";
-        $ads->extraheader = $item->extraheader ?? "";
-        $ads->text = $item->text ?? "";
-        $ads->url = $item->url ?? "";
-        $ads->showurl = $item->showurl ?? "";
-        $ads->callout_1 = $item->callout_1 ?? "";
-        $ads->callout_2 = $item->callout_2 ?? "";
-        $ads->callout_3 = $item->callout_3 ?? "";
-        $ads->callout_4 = $item->callout_4 ?? "";
-        $ads->sitelink_1_name = $item->sitelink_1_name ?? "";
-        $ads->sitelink_1_link = $item->sitelink_1_link ?? "";
-        $ads->sitelink_1_descr = $item->sitelink_1_descr ?? "";
-        $ads->sitelink_2_name = $item->sitelink_2_name ?? "";
-        $ads->sitelink_2_link = $item->sitelink_2_link ?? "";
-        $ads->sitelink_2_descr = $item->sitelink_2_descr ?? "";
-        $ads->sitelink_3_name = $item->sitelink_3_name ?? "";
-        $ads->sitelink_3_link = $item->sitelink_3_link ?? "";
-        $ads->sitelink_3_descr = $item->sitelink_3_descr ?? "";
-        $ads->sitelink_4_name = $item->sitelink_4_name ?? "";
-        $ads->sitelink_4_link = $item->sitelink_4_link ?? "";
-        $ads->sitelink_4_descr = $item->sitelink_4_descr ?? "";
-        $ads->sitelink_5_name = $item->sitelink_5_name ?? "";
-        $ads->sitelink_5_link = $item->sitelink_5_link ?? "";
-        $ads->sitelink_5_descr = $item->sitelink_5_descr ?? "";
-        $ads->sitelink_6_name = $item->sitelink_6_name ?? "";
-        $ads->sitelink_6_link = $item->sitelink_6_link ?? "";
-        $ads->sitelink_6_descr = $item->sitelink_6_descr ?? "";
-        $ads->sitelink_7_name = $item->sitelink_7_name ?? "";
-        $ads->sitelink_7_link = $item->sitelink_7_link ?? "";
-        $ads->sitelink_7_descr = $item->sitelink_7_descr ?? "";
-        $ads->sitelink_8_name = $item->sitelink_8_name ?? "";
-        $ads->sitelink_8_link = $item->sitelink_8_link ?? "";
-        $ads->sitelink_8_descr = $item->sitelink_8_descr ?? "";
-        $ads->link_id = $linkInfo["id"];
+        $fullFields = array_filter(get_object_vars($item), static function ($field) {
+            return $field !== null && trim($field) !== '';
+        });
+        if (!empty($fullFields)) {
+            // создаём новый объект объявления
+            $ads = new Ads($db);
+            // устанавливаем значения свойств
+            $ads->header = $item->header ?? "";
+            $ads->extraheader = $item->extraheader ?? "";
+            $ads->text = $item->text ?? "";
+            $ads->url = $item->url ?? "";
+            $ads->showurl = $item->showurl ?? "";
+            $ads->callout_0 = $item->callout_0 ?? "";
+            $ads->callout_1 = $item->callout_1 ?? "";
+            $ads->callout_2 = $item->callout_2 ?? "";
+            $ads->callout_3 = $item->callout_3 ?? "";
+            $ads->sitelink_0_name = $item->sitelink_0_name ?? "";
+            $ads->sitelink_0_link = $item->sitelink_0_link ?? "";
+            $ads->sitelink_0_descr = $item->sitelink_0_descr ?? "";
+            $ads->sitelink_1_name = $item->sitelink_1_name ?? "";
+            $ads->sitelink_1_link = $item->sitelink_1_link ?? "";
+            $ads->sitelink_1_descr = $item->sitelink_1_descr ?? "";
+            $ads->sitelink_2_name = $item->sitelink_2_name ?? "";
+            $ads->sitelink_2_link = $item->sitelink_2_link ?? "";
+            $ads->sitelink_2_descr = $item->sitelink_2_descr ?? "";
+            $ads->sitelink_3_name = $item->sitelink_3_name ?? "";
+            $ads->sitelink_3_link = $item->sitelink_3_link ?? "";
+            $ads->sitelink_3_descr = $item->sitelink_3_descr ?? "";
+            $ads->sitelink_4_name = $item->sitelink_4_name ?? "";
+            $ads->sitelink_4_link = $item->sitelink_4_link ?? "";
+            $ads->sitelink_4_descr = $item->sitelink_4_descr ?? "";
+            $ads->sitelink_5_name = $item->sitelink_5_name ?? "";
+            $ads->sitelink_5_link = $item->sitelink_5_link ?? "";
+            $ads->sitelink_5_descr = $item->sitelink_5_descr ?? "";
+            $ads->sitelink_6_name = $item->sitelink_6_name ?? "";
+            $ads->sitelink_6_link = $item->sitelink_6_link ?? "";
+            $ads->sitelink_6_descr = $item->sitelink_6_descr ?? "";
+            $ads->sitelink_7_name = $item->sitelink_7_name ?? "";
+            $ads->sitelink_7_link = $item->sitelink_7_link ?? "";
+            $ads->sitelink_7_descr = $item->sitelink_7_descr ?? "";
+            $ads->link_id = $linkInfo["id"];
 
-        if (!$ads->create()) {
-            // установим код ответа - 503 сервис недоступен
-            http_response_code(503);
+            if (!$ads->create()) {
+                // установим код ответа - 503 сервис недоступен
+                http_response_code(503);
+                // сообщим пользователю
+                echo json_encode(array("error" => "Невозможно создать объявление."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+            }
+        } // если получено пустое объявление
+        else {
+            // установим код ответа - 400 неверный запрос
+            http_response_code(400);
             // сообщим пользователю
-            echo json_encode(array("error" => "Невозможно создать объявление."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+            echo json_encode(array("error" => "Невозможно записать объявление. Данные неполные."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+            die();
         }
     }
 
@@ -82,7 +97,7 @@ if (!empty($data->ads)) {
 } // сообщим пользователю что данные неполные
 else {
     // установим код ответа - 400 неверный запрос
-    http_response_code(400);
+    http_response_code(200);
     // сообщим пользователю
     echo json_encode(array("error" => "Невозможно записать объявления. Данные неполные."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
 }
