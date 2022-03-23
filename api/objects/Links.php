@@ -1,4 +1,7 @@
 <?php
+namespace YDText;
+
+use PDO;
 
 class Links
 {

@@ -6,9 +6,10 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json");
 
-// подключение файла для соединения с базой и файл с объектом
-include_once '../database/Database.php';
-include_once '../objects/Ads.php';
+require '../vendor/autoload.php';
+
+use YDText\Ads;
+use YDText\Database;
 
 // получаем соединение с базой данных
 $database = new Database();

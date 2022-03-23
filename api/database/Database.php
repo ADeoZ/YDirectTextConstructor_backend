@@ -1,4 +1,9 @@
 <?php
+namespace YDText;
+
+use PDO;
+use PDOException;
+
 class Database
 {
     private string $host = "host";

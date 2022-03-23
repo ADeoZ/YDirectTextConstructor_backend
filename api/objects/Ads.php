@@ -1,5 +1,10 @@
 <?php
 
+namespace YDText;
+
+use PDO;
+use PDOStatement;
+
 class Ads
 {
     // подключение к базе данных и таблице 'products'
@@ -47,7 +52,7 @@ class Ads
         $this->connection = $db;
     }
 
-    // запрос для чтения объялвений по ссылке
+    // запрос для чтения объявлений по ссылке
     public function readByLink(string $link): PDOStatement
     {
         $query = "SELECT
