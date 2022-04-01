@@ -93,6 +93,7 @@ class ComposerStaticInitd77a8c201f98bd663fab5d9af8dbdaea
         'YDText\\Ads' => __DIR__ . '/../..' . '/objects/Ads.php',
         'YDText\\Database' => __DIR__ . '/../..' . '/database/Database.php',
         'YDText\\Links' => __DIR__ . '/../..' . '/objects/Links.php',
+        'YDText\\Spreadsheets' => __DIR__ . '/../..' . '/objects/Spreadsheets.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

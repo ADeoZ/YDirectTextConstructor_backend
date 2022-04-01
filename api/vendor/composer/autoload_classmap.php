@@ -10,4 +10,5 @@ return array(
     'YDText\\Ads' => $baseDir . '/objects/Ads.php',
     'YDText\\Database' => $baseDir . '/database/Database.php',
     'YDText\\Links' => $baseDir . '/objects/Links.php',
+    'YDText\\Spreadsheets' => $baseDir . '/objects/Spreadsheets.php',
 );

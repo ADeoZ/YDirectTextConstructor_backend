@@ -16,7 +16,7 @@ use YDText\Links;
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data->ads)) {
-    array_filter(get_object_vars($data->ads[0]));
+//    array_filter(get_object_vars($data->ads[0]));
 
     // получаем соединение с базой данных
     $database = new Database();
@@ -27,6 +27,7 @@ if (!empty($data->ads)) {
     $linkInfo = $links->create();
 
     foreach ($data->ads as $item) {
+        // проверяем на полноту полей
         $fullFields = array_filter(get_object_vars($item), static function ($field) {
             return $field !== null && trim($field) !== '';
         });
@@ -74,6 +75,7 @@ if (!empty($data->ads)) {
                 http_response_code(503);
                 // сообщим пользователю
                 echo json_encode(array("error" => "Невозможно создать объявление."), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+                die();
             }
         } // если получено пустое объявление
         else {
